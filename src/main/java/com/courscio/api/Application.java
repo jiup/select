@@ -25,7 +25,8 @@ import javax.sql.DataSource;
 @SpringBootApplication
 @EnableSwagger2
 public class Application {
-    public static final String VERSION = "v1";
+    public static final String VERSION_MAJOR = "1";
+    public static final String VERSION_MINOR = "0.1";
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
@@ -61,18 +62,18 @@ public class Application {
 
     @Bean
     public WebServerFactoryCustomizer<ConfigurableServletWebServerFactory> webServerFactoryCustomizer() {
-        return factory -> factory.setContextPath("/api/" + VERSION);
+        return factory -> factory.setContextPath("/api/v" + VERSION_MAJOR);
     }
 
     @Bean("apiDocumentation")
     public Docket apiDocumentation(ServletContext servletContext) {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("io.codeager.api"))
+                .apis(RequestHandlerSelectors.basePackage("com.courscio.api"))
                 .build()
                 .apiInfo(new ApiInfoBuilder()
                         .title("Courscio API Center")
-                        .version("1.0.1")
+                        .version(VERSION_MAJOR + "." + VERSION_MINOR)
                         .description("\n" +
                                 "This project subjects the MIT license:\n" +
                                 "\n" +
