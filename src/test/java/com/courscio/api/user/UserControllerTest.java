@@ -1,4 +1,4 @@
-package io.codeager.api.user;
+package com.courscio.api.user;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

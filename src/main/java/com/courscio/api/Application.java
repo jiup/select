@@ -1,4 +1,4 @@
-package io.codeager.api;
+package com.courscio.api;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.zaxxer.hikari.HikariDataSource;

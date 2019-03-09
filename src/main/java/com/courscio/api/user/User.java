@@ -1,11 +1,9 @@
-package io.codeager.api.user;
+package com.courscio.api.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.ibatis.type.EnumTypeHandler;
 import org.springframework.data.annotation.Id;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.util.StringJoiner;

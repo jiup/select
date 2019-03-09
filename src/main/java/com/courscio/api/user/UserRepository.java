@@ -1,4 +1,4 @@
-package io.codeager.api.user;
+package com.courscio.api.user;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Result;
