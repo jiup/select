@@ -43,7 +43,7 @@ public class Application {
         ds.addDataSourceProperty("poolName", "Hikari Connection Pool");
         ds.setTransactionIsolation("TRANSACTION_REPEATABLE_READ");
         ds.setDriverClassName(com.mysql.cj.jdbc.Driver.class.getName());
-        ds.setJdbcUrl("jdbc:mysql://localhost:3306/courscio?characterEncoding=UTF8&useSSL=false");
+        ds.setJdbcUrl("jdbc:mysql://localhost:3306/courscio?characterEncoding=UTF8&serverTimezone=UTC&useSSL=false");
         ds.addDataSourceProperty("user", "root");
         ds.addDataSourceProperty("password", "");
         ds.addDataSourceProperty("cachePrepStmts", true);
@@ -60,7 +60,7 @@ public class Application {
                 .indentOutput(true);
     }
 
-    @Bean
+    @Bean("webServerFactoryCustomizer")
     public WebServerFactoryCustomizer<ConfigurableServletWebServerFactory> webServerFactoryCustomizer() {
         return factory -> factory.setContextPath("/api/v" + VERSION_MAJOR);
     }

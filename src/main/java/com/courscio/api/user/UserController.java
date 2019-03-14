@@ -20,20 +20,14 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping({"/", "/hello"})
-    public String hello() {
-        return "hello";
+    @GetMapping("/{id}")
+    public ResponseEntity<User> get(@PathVariable Long id) {
+        return new ResponseEntity<>(userService.getById(id), HttpStatus.OK);
     }
 
-    @GetMapping("/get")
-    public ResponseEntity<User> get() {
-        System.out.println(userService.getById());
-        return new ResponseEntity<>(userService.getById(), HttpStatus.OK);
-    }
-
-    @PostMapping("/post")
-    public String post(@ModelAttribute User user) {
+    @PostMapping
+    public HttpStatus post(@ModelAttribute User user) {
         System.out.println(user);
-        return "done";
+        return HttpStatus.OK;
     }
 }
