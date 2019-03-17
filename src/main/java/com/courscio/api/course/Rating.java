@@ -11,7 +11,7 @@ import org.springframework.data.annotation.Id;
 public class Rating implements Serializable {
 	private Long id;
 	private Long user_id;
-	private Long course_id;
+	private Long teaching_id;
 	private Integer score;
 	private String comment;
 	
@@ -28,11 +28,11 @@ public class Rating implements Serializable {
 	public void setUser_id(Long user_id) {
 		this.user_id = user_id;
 	}
-	public Long getCourse_id() {
-		return course_id;
+	public Long getTeaching_id() {
+		return teaching_id;
 	}
-	public void setCourse_id(Long course_id) {
-		this.course_id = course_id;
+	public void setTeaching_id(Long course_id) {
+		this.teaching_id = course_id;
 	}
 	public Integer getScore() {
 		return score;
