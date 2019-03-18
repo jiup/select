@@ -1,4 +1,4 @@
-package com.courscio.api.course;
+package com.courscio.api.schedule;
 
 import java.io.Serializable;
 import java.time.LocalTime;

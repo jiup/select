@@ -1,4 +1,4 @@
-package com.courscio.api.course;
+package com.courscio.api.teaching;
 
 import java.io.Serializable;
 
