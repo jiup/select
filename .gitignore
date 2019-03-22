@@ -6,3 +6,4 @@
 bin/
 .idea/
 select.iml
+.DS_Store
