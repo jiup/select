@@ -1,5 +1,6 @@
 package com.courscio.api.course;
 
+import com.courscio.api.schedule.Schedule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,5 +21,9 @@ public class CourseService {
 
     public List<Course> listByCombinedKeyword(String keyword) {
         return courseRepository.listByCombinedKeyword(keyword);
+    }
+
+    public List<Course> listByFilters(String semester, String major, Short credit, List<Schedule.WeekDay> weekdays) {
+        return courseRepository.listByFilters(semester, major, credit, weekdays);
     }
 }

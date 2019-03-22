@@ -15,8 +15,8 @@ public interface ScheduleRepository {
             @Result(column = "id", property = "id", jdbcType = JdbcType.BIGINT, id = true),
             @Result(column = "teaching_id", property = "teaching_id", jdbcType = JdbcType.BIGINT),
             @Result(column = "weekday", property = "weekday", javaType = Schedule.WeekDay.class, typeHandler = Schedule.WeekDay.Handler.class),
-            @Result(column = "start_t", property = "start_t", jdbcType = JdbcType.TIME),
-            @Result(column = "end_t", property = "end_t", jdbcType = JdbcType.TIME),
+            @Result(column = "start_t", property = "start_t", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "end_t", property = "end_t", jdbcType = JdbcType.VARCHAR),
             @Result(column = "building", property = "building", jdbcType = JdbcType.VARCHAR),
             @Result(column = "room", property = "room", jdbcType = JdbcType.VARCHAR)
     })

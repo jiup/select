@@ -32,12 +32,12 @@ public class RatingController {
         return ratingService.addRating(rating) ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
     }
 
-    @PutMapping("/{user_id}/{teaching_id}")
+    @PutMapping("/{user_id}/{teaching_id}/score")
     public HttpStatus put(@PathVariable Long user_id, @PathVariable Long teaching_id, Integer score) {
         return ratingService.addScore(user_id, teaching_id, score) ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
     }
     
-    @PutMapping("/{user_id}/{teaching_id}")
+    @PutMapping("/{user_id}/{teaching_id}/comment")
     public HttpStatus put(@PathVariable Long user_id, @PathVariable Long teaching_id, String comment) {
         return ratingService.addComment(user_id, teaching_id, comment) ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
     }

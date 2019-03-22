@@ -18,8 +18,8 @@ public class Schedule implements Serializable {
 	private Long id;
 	private Long teachingId;
 	private WeekDay weekDay;
-	private LocalTime start_t;
-	private LocalTime end_t;
+	private String start_t;
+	private String end_t;
 	private String building;
 	private String room;
 	
@@ -76,22 +76,22 @@ public class Schedule implements Serializable {
 	}
 
 
-	public LocalTime getStart_t() {
+	public String getStart_t() {
 		return start_t;
 	}
 
 
-	public void setStart_t(LocalTime start_t) {
+	public void setStart_t(String start_t) {
 		this.start_t = start_t;
 	}
 
 
-	public LocalTime getEnd_t() {
+	public String getEnd_t() {
 		return end_t;
 	}
 
 
-	public void setEnd_t(LocalTime end_t) {
+	public void setEnd_t(String end_t) {
 		this.end_t = end_t;
 	}
 
