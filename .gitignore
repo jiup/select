@@ -1,8 +1,0 @@
-/target/
-.classpath
-.gitignore
-.project
-.settings/
-bin/
-.idea/
-select.iml
