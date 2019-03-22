@@ -35,7 +35,7 @@ public class CourseController {
     public ResponseEntity<List<Course>> listByFilters(@RequestParam("semester") String semester,
                                                       @RequestParam("major") String major,
                                                       @RequestParam("credit") Short credit,
-                                                      @RequestParam("weekdays") List<Schedule.WeekDay> weekdays) {
+                                                      @RequestParam("weekdays") List<String> weekdays) {
         return new ResponseEntity<>(courseService.listByFilters(semester, major, credit, weekdays),
                 HttpStatus.OK);
     }

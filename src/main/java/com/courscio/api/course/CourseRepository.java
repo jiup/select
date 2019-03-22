@@ -45,9 +45,9 @@ public interface CourseRepository {
 
 
     @Select({
-            "select * from ((select * from courscio_course where semester = ifnull(?, semester) and major = ifnull(?, major) and credit = ifnull(?, credit))",
-            "inner join courscio_teaching on courscio_course.id = courscio_teaching.course_id " +
-                    "inner join courscio_schedule on teaching_id) where weekday in weekdays"
+            "select * from courscio_course inner join courscio_teaching on courscio_course.id = courscio_teaching.course_id",
+            "inner join courscio_schedule on teaching_id",
+            "where semester = #{semester} and major = #{major} and credit = #{credit} and weekday in (#{weekdays})"
     })
     @Results({
             @Result(column = "id", property = "id", jdbcType = JdbcType.BIGINT, id = true),
@@ -61,9 +61,9 @@ public interface CourseRepository {
             @Result(column = "score", property = "courseId", jdbcType = JdbcType.TINYINT),
             @Result(column = "desc", property = "description", jdbcType = JdbcType.LONGVARCHAR),
             @Result(column = "preq", property = "prerequisite", jdbcType = JdbcType.LONGVARCHAR),
-//            @Result(column = "weekday", property = "weekday", javaType = Schedule.WeekDay.class, typeHandler = Schedule.WeekDay.Handler.class),
-//            @Result(column = "start_t", property = "start_t", jdbcType = JdbcType.VARCHAR),
-//            @Result(column = "end_t", property = "end_t", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "weekday", property = "weekday", javaType = Schedule.WeekDay.class, typeHandler = Schedule.WeekDay.Handler.class),
+            @Result(column = "start_t", property = "start_t", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "end_t", property = "end_t", jdbcType = JdbcType.VARCHAR),
     })
-    List<Course> listByFilters(String semester, String major, Short credit,  List<Schedule.WeekDay> weekdays);
+    List<Course> listByFilters(String semester, String major, Short credit,  List<String> weekdays);
 }

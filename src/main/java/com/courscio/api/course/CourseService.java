@@ -23,7 +23,7 @@ public class CourseService {
         return courseRepository.listByCombinedKeyword(keyword);
     }
 
-    public List<Course> listByFilters(String semester, String major, Short credit, List<Schedule.WeekDay> weekdays) {
+    public List<Course> listByFilters(String semester, String major, Short credit, List<String> weekdays) {
         return courseRepository.listByFilters(semester, major, credit, weekdays);
     }
 }
