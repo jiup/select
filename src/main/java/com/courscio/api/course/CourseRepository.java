@@ -56,7 +56,7 @@ public interface CourseRepository {
     	"</script>"
     })
     @Results({
-            @Result(column = "id", property = "id", jdbcType = JdbcType.BIGINT, id = true),
+            @Result(column = "id", property = "id", jdbcType = JdbcType.BIGINT),
             @Result(column = "school_id", property = "schoolId", jdbcType = JdbcType.BIGINT),
             @Result(column = "semester", property = "semester", jdbcType = JdbcType.VARCHAR),
             @Result(column = "major", property = "major", jdbcType = JdbcType.VARCHAR),
@@ -67,9 +67,10 @@ public interface CourseRepository {
             @Result(column = "score", property = "score", jdbcType = JdbcType.TINYINT),
             @Result(column = "desc", property = "description", jdbcType = JdbcType.LONGVARCHAR),
             @Result(column = "preq", property = "prerequisite", jdbcType = JdbcType.LONGVARCHAR),
-//            @Result(column = "weekday", property = "weekday", javaType = Schedule.WeekDay.class, typeHandler = Schedule.WeekDay.Handler.class),
-//            @Result(column = "start_t", property = "start_t", jdbcType = JdbcType.VARCHAR),
-//            @Result(column = "end_t", property = "end_t", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "weekday", property = "weekday", javaType = Schedule.WeekDay.class, typeHandler = Schedule.WeekDay.Handler.class),
+            @Result(column = "start_t", property = "start_t", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "end_t", property = "end_t", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "id", property = "key", jdbcType = JdbcType.BIGINT, id = true),
     })
-    List<Course> listByFilters(String semester, String major, Short credit,  @Param("scanWeekday") List<String> weekdays);
+    List<CourseResult> listByFilters(String semester, String major, Short credit,  @Param("scanWeekday") List<String> weekdays);
 }

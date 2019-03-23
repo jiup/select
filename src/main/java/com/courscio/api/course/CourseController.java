@@ -32,7 +32,7 @@ public class CourseController {
     }
 
     @GetMapping("/filters")
-    public ResponseEntity<List<Course>> listByFilters(@RequestParam("semester") String semester,
+    public ResponseEntity<List<CourseResult>> listByFilters(@RequestParam("semester") String semester,
                                                       @RequestParam("major") String major,
                                                       @RequestParam("credit") Short credit,
                                                       @RequestParam("weekdays") List<String> weekdays) {
