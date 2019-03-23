@@ -43,7 +43,6 @@ public interface CourseRepository {
     List<Course> listByCombinedKeyword(String keyword);
 
 
-
     @Select({
             "select * from courscio_course inner join courscio_teaching on courscio_course.id = courscio_teaching.course_id",
             "inner join courscio_schedule on teaching_id",
@@ -58,12 +57,22 @@ public interface CourseRepository {
             @Result(column = "cname", property = "cname", jdbcType = JdbcType.VARCHAR),
             @Result(column = "title", property = "title", jdbcType = JdbcType.VARCHAR),
             @Result(column = "credit", property = "credit", jdbcType = JdbcType.TINYINT),
-            @Result(column = "score", property = "courseId", jdbcType = JdbcType.TINYINT),
+            @Result(column = "score", property = "score", jdbcType = JdbcType.TINYINT),
             @Result(column = "desc", property = "description", jdbcType = JdbcType.LONGVARCHAR),
             @Result(column = "preq", property = "prerequisite", jdbcType = JdbcType.LONGVARCHAR),
-            @Result(column = "weekday", property = "weekday", javaType = Schedule.WeekDay.class, typeHandler = Schedule.WeekDay.Handler.class),
-            @Result(column = "start_t", property = "start_t", jdbcType = JdbcType.VARCHAR),
-            @Result(column = "end_t", property = "end_t", jdbcType = JdbcType.VARCHAR),
+//            @Result(column = "id", property = "id", jdbcType = JdbcType.BIGINT, id = true),
+//            @Result(column = "professor_id", property = "professor_id", jdbcType = JdbcType.BIGINT),
+//            @Result(column = "course_id", property = "course_id", jdbcType = JdbcType.BIGINT),
+//            @Result(column = "term", property = "term", jdbcType = JdbcType.VARCHAR),
+//            @Result(column = "capaticy", property = "capacity", jdbcType = JdbcType.INTEGER),
+//            @Result(column = "location", property = "location", jdbcType = JdbcType.VARCHAR),
+//            @Result(column = "id", property = "id", jdbcType = JdbcType.BIGINT, id = true),
+//            @Result(column = "teaching_id", property = "teaching_id", jdbcType = JdbcType.BIGINT),
+//            @Result(column = "weekday", property = "weekday", javaType = Schedule.WeekDay.class, typeHandler = Schedule.WeekDay.Handler.class),
+//            @Result(column = "start_t", property = "start_t", jdbcType = JdbcType.VARCHAR),
+//            @Result(column = "end_t", property = "end_t", jdbcType = JdbcType.VARCHAR),
+//            @Result(column = "building", property = "building", jdbcType = JdbcType.VARCHAR),
+//            @Result(column = "room", property = "room", jdbcType = JdbcType.VARCHAR)
     })
     List<Course> listByFilters(String semester, String major, Short credit,  List<String> weekdays);
 }
