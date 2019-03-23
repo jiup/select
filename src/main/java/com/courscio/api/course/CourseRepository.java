@@ -2,6 +2,7 @@ package com.courscio.api.course;
 
 import com.courscio.api.schedule.Schedule;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
@@ -43,10 +44,16 @@ public interface CourseRepository {
     List<Course> listByCombinedKeyword(String keyword);
 
 
+
     @Select({
-            "select * from courscio_course inner join courscio_teaching on courscio_course.id = courscio_teaching.course_id",
-            "inner join courscio_schedule on teaching_id",
-            "where semester = #{semester} and major = #{major} and credit = #{credit} and weekday in (#{weekdays})"
+    	"<script>"+
+    			"select * from courscio_course c inner join courscio_teaching t on c.id = t.course_id",
+    			"inner join courscio_schedule s on s.teaching_id = t.id",
+    			"where semester = #{semester} and major = #{major} and credit = #{credit} and weekday in "+
+    					"<foreach item='item' index='index' collection='scanWeekday' open='(' separator=',' close=')'>" + 
+    					"#{item}"+ 
+    					"</foreach>"+
+    	"</script>"
     })
     @Results({
             @Result(column = "id", property = "id", jdbcType = JdbcType.BIGINT, id = true),
@@ -60,19 +67,9 @@ public interface CourseRepository {
             @Result(column = "score", property = "score", jdbcType = JdbcType.TINYINT),
             @Result(column = "desc", property = "description", jdbcType = JdbcType.LONGVARCHAR),
             @Result(column = "preq", property = "prerequisite", jdbcType = JdbcType.LONGVARCHAR),
-//            @Result(column = "id", property = "id", jdbcType = JdbcType.BIGINT, id = true),
-//            @Result(column = "professor_id", property = "professor_id", jdbcType = JdbcType.BIGINT),
-//            @Result(column = "course_id", property = "course_id", jdbcType = JdbcType.BIGINT),
-//            @Result(column = "term", property = "term", jdbcType = JdbcType.VARCHAR),
-//            @Result(column = "capaticy", property = "capacity", jdbcType = JdbcType.INTEGER),
-//            @Result(column = "location", property = "location", jdbcType = JdbcType.VARCHAR),
-//            @Result(column = "id", property = "id", jdbcType = JdbcType.BIGINT, id = true),
-//            @Result(column = "teaching_id", property = "teaching_id", jdbcType = JdbcType.BIGINT),
 //            @Result(column = "weekday", property = "weekday", javaType = Schedule.WeekDay.class, typeHandler = Schedule.WeekDay.Handler.class),
 //            @Result(column = "start_t", property = "start_t", jdbcType = JdbcType.VARCHAR),
 //            @Result(column = "end_t", property = "end_t", jdbcType = JdbcType.VARCHAR),
-//            @Result(column = "building", property = "building", jdbcType = JdbcType.VARCHAR),
-//            @Result(column = "room", property = "room", jdbcType = JdbcType.VARCHAR)
     })
-    List<Course> listByFilters(String semester, String major, Short credit,  List<String> weekdays);
+    List<Course> listByFilters(String semester, String major, Short credit,  @Param("scanWeekday") List<String> weekdays);
 }
