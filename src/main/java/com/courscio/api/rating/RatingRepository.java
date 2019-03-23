@@ -36,14 +36,14 @@ public interface RatingRepository {
 	@Update({
         "update courscio_rating",
         "set score = #{score}",
-        "where user_id = #{user_ id,jdbcType=BIGINT} and teaching_id = #{teaching_id,jdbcType=BIGINT}"
+        "where user_id = #{user_id,jdbcType=BIGINT} and teaching_id = #{teaching_id,jdbcType=BIGINT}"
 	})
 	int updateScore(@Param("user_id") long user_id, @Param("teaching_id") long teaching_id, @Param("score") Integer score);
 	
 	@Update({
         "update courscio_rating",
         "set comment = #{comment}",
-        "where user_id = #{user_ id,jdbcType=BIGINT} and teaching_id = #{teaching_id,jdbcType=BIGINT}"
+        "where user_id = #{user_id,jdbcType=BIGINT} and teaching_id = #{teaching_id,jdbcType=BIGINT}"
 	})
 	int updateComment(@Param("user_id") long user_id, @Param("teaching_id") long teaching_id, @Param("comment") String comment);
 }
