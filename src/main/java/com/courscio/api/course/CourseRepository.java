@@ -36,7 +36,7 @@ public interface CourseRepository {
             @Result(column = "cname", property = "cname", jdbcType = JdbcType.VARCHAR),
             @Result(column = "title", property = "title", jdbcType = JdbcType.VARCHAR),
             @Result(column = "credit", property = "credit", jdbcType = JdbcType.TINYINT),
-            @Result(column = "score", property = "courseId", jdbcType = JdbcType.TINYINT),
+            @Result(column = "score", property = "score", jdbcType = JdbcType.TINYINT),
             @Result(column = "desc", property = "description", jdbcType = JdbcType.LONGVARCHAR),
             @Result(column = "preq", property = "prerequisite", jdbcType = JdbcType.LONGVARCHAR),
     })
