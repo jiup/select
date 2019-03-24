@@ -17,7 +17,7 @@ public interface RatingRepository {
 	@Select("select * from courscio_rating where id = #{Id}")
     @Results({
             @Result(column = "id", property = "id", jdbcType = JdbcType.BIGINT, id = true),
-            @Result(column = "user_id", property = "userId", jdbcType = JdbcType.BIGINT),
+            @Result(column = "user_id", property = "user_id", jdbcType = JdbcType.BIGINT),
             @Result(column = "teaching_id", property = "teaching_id", jdbcType = JdbcType.BIGINT),
             @Result(column = "score", property = "score", jdbcType = JdbcType.INTEGER),
             @Result(column = "comment", property = "comment", jdbcType = JdbcType.VARCHAR),
@@ -26,8 +26,8 @@ public interface RatingRepository {
 	
 	@Insert({
         "insert into courscio_rating (id, user_id, teaching_id, score, comment)",
-        "values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, ",
-        "#{teachingId,jdbcType=BIGINT}, #{score,jdbcType=INTEGER}, ",
+        "values (#{id,jdbcType=BIGINT}, #{user_id,jdbcType=BIGINT}, ",
+        "#{teaching_id,jdbcType=BIGINT}, #{score,jdbcType=INTEGER}, ",
         "#{comment,jdbcType=VARCHAR})"
 	})
 	@SelectKey(statement = "SELECT LAST_INSERT_ID()", keyProperty = "id", before = false, resultType = long.class)
