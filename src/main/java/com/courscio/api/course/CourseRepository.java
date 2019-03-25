@@ -46,12 +46,29 @@ public interface CourseRepository {
 
 
     @Select({
-    	"<script>"+
+//        "if(#{credit} != null, "+
+//    	"<script>"+
+//    			"select * from courscio_course c inner join courscio_teaching t on c.id = t.course_id",
+//    			"inner join courscio_schedule s on s.teaching_id = t.id",
+//    			"where semester = #{semester} and major = #{major} and credit = #{credit} and weekday in "+
+//    					"<foreach item='item' index='index' collection='scanWeekday' open='(' separator=',' close=')'>" +
+//    					"#{item}"+
+//    					"</foreach>"+
+//    	"</script>",
+//        "<script>"+
+//            "select * from courscio_course c inner join courscio_teaching t on c.id = t.course_id",
+//            "inner join courscio_schedule s on s.teaching_id = t.id",
+//            "where semester = #{semester} and major = #{major} and weekday in "+
+//                    "<foreach item='item' index='index' collection='scanWeekday' open='(' separator=',' close=')'>" +
+//                    "#{item}"+
+//                    "</foreach>"+
+//                    "</script>)"
+        "<script>"+
     			"select * from courscio_course c inner join courscio_teaching t on c.id = t.course_id",
     			"inner join courscio_schedule s on s.teaching_id = t.id",
     			"where semester = #{semester} and major = #{major} and credit = #{credit} and weekday in "+
-    					"<foreach item='item' index='index' collection='scanWeekday' open='(' separator=',' close=')'>" + 
-    					"#{item}"+ 
+    					"<foreach item='item' index='index' collection='scanWeekday' open='(' separator=',' close=')'>" +
+    					"#{item}"+
     					"</foreach>"+
     	"</script>"
     })

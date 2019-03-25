@@ -1,6 +1,8 @@
 package com.courscio.api.course;
 
 import com.courscio.api.schedule.Schedule;
+import io.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,8 +36,8 @@ public class CourseController {
     @GetMapping("/filters")
     public ResponseEntity<List<CourseResult>> listByFilters(@RequestParam("semester") String semester,
                                                       @RequestParam("major") String major,
-                                                      @RequestParam("credit") Short credit,
-                                                      @RequestParam("weekdays") List<String> weekdays) {
+                                                      @RequestParam(value= "credit", required = false) @ApiParam(required = false) Short credit,
+                                                      @RequestParam(value = "weekdays", required = false) @ApiParam(required = false) List<String> weekdays) {
         return new ResponseEntity<>(courseService.listByFilters(semester, major, credit, weekdays),
                 HttpStatus.OK);
     }
