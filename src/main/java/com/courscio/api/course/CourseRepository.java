@@ -66,6 +66,7 @@ public interface CourseRepository {
         "<script>"+
     			"select * from courscio_course c inner join courscio_teaching t on c.id = t.course_id",
     			"inner join courscio_schedule s on s.teaching_id = t.id",
+                "inner join courscio_professor p on p.id = t.professor_id",
     			"where semester = #{semester} and major = #{major} and credit = #{credit} and weekday in "+
     					"<foreach item='item' index='index' collection='scanWeekday' open='(' separator=',' close=')'>" +
     					"#{item}"+
@@ -88,6 +89,8 @@ public interface CourseRepository {
             @Result(column = "start_t", property = "start_t", jdbcType = JdbcType.VARCHAR),
             @Result(column = "end_t", property = "end_t", jdbcType = JdbcType.VARCHAR),
             @Result(column = "id", property = "key", jdbcType = JdbcType.BIGINT, id = true),
+            @Result(column = "name", property = "name", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "location", property = "location", jdbcType = JdbcType.VARCHAR),
     })
     List<CourseResult> listByFilters(String semester, String major, Short credit,  @Param("scanWeekday") List<String> weekdays);
 }
