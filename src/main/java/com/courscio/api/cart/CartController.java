@@ -4,6 +4,7 @@ import org.apache.ibatis.annotations.Delete;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,12 +24,14 @@ public class CartController {
     }
 
     @GetMapping("/{userId}/cartItems")
+    @PreAuthorize("authentication.principal.get(\"id\").toString().equals(\"\" + #userId)")
     public ResponseEntity<List<CartItem>> get(@PathVariable Long userId) {
         return new ResponseEntity<>(cartService.listByUserId(userId), HttpStatus.OK);
     }
 
 
     @PostMapping("/{userId}/cart")
+    @PreAuthorize("authentication.principal.get(\"id\").toString().equals(\"\" + #userId)")
     public HttpStatus post(@ModelAttribute CartItem cartItem, @PathVariable Long userId) {
         if (cartItem.getType() == CartItem.Type.wishlist || cartService.checkValidReserve(cartItem.getCourseId(), userId)) {
             return  cartService.addCartItem(cartItem) ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
@@ -37,6 +40,7 @@ public class CartController {
     }
 
     @PutMapping("/{userId}/cart/{id}")
+    @PreAuthorize("authentication.principal.get(\"id\").toString().equals(\"\" + #userId)")
     public HttpStatus put(@PathVariable Long id, CartItem.Type type, @PathVariable Long userId) {
         CartItem item = cartService.getItem(id);
         if (!cartService.checkValidReserve(item.getCourseId(), userId) && type == CartItem.Type.reserved) {
@@ -46,6 +50,7 @@ public class CartController {
     }
 
     @Delete("/{userId}/cart/{id}")
+    @PreAuthorize("authentication.principal.get(\"id\").toString().equals(\"\" + #userId)")
     public HttpStatus delete(@PathVariable Long id, @PathVariable Long userId) {
         return cartService.deleteCartItem(id) ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
     }
