@@ -1,6 +1,5 @@
 package com.courscio.api.user;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.ibatis.type.EnumTypeHandler;
 import org.springframework.data.annotation.Id;
 
@@ -115,6 +114,10 @@ public class User implements Serializable {
         }
     }
 
+    public boolean isBeginner() {
+        return createTime != null && loginCount != null && loginCount < 2 && ZonedDateTime.now().isBefore(createTime.plusMinutes(2));
+    }
+
     @Id
     public Long getId() {
         return id;
@@ -140,7 +143,6 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    @JsonIgnore
     public String getPassword() {
         return password;
     }
@@ -262,7 +264,7 @@ public class User implements Serializable {
     }
 
     public Integer getLoginCount() {
-        return loginCount;
+        return loginCount == null ? 0 : loginCount;
     }
 
     public void setLoginCount(Integer loginCount) {
