@@ -68,6 +68,10 @@ public class AuthenticationController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Access Forbidden");
         }
 
+        if (!isUniversityOfRochesterEmail(authentication.email)) {
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Educational Email Required");
+        }
+
         User user = userService.getByEmail(authentication.email);
         if (user == null) {
             user = newDefaultUser(authentication.email);
@@ -121,6 +125,10 @@ public class AuthenticationController {
         user.setType(User.Type.student);
         user.setLoginCount(0);
         return user;
+    }
+
+    private boolean isUniversityOfRochesterEmail(String email) {
+        return email.endsWith("rochester.edu");
     }
 
     private static class Authentication {
