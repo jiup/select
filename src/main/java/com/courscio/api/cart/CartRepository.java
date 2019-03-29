@@ -15,6 +15,15 @@ import java.util.List;
 @Repository
 public interface CartRepository {
 
+    @Select("select * from courscio_cart where id = #{id}")
+    @Results({
+            @Result(column = "id", property = "id", jdbcType = JdbcType.BIGINT, id = true),
+            @Result(column = "user_id", property = "userId", jdbcType = JdbcType.BIGINT),
+            @Result(column = "course_id", property = "courseId", jdbcType = JdbcType.BIGINT),
+            @Result(column = "type", property = "type", javaType = CartItem.Type.class, typeHandler = CartItem.Type.Handler.class),
+    })
+    CartItem getItem(Long id);
+
     @Select("select * from courscio_cart where user_id = #{userId}")
     @Results({
             @Result(column = "id", property = "id", jdbcType = JdbcType.BIGINT, id = true),
@@ -44,9 +53,9 @@ public interface CartRepository {
     })
     int deleteById(long id);
 
-    @Select({"select * from courscio_course c inner join courscio_teaching t on c.id = t.course_id",
-             "inner join courscio_schedule s on s.teaching_id = t.id",
-             "where s.teaching_id = #{id}",
+    @Select({"select * from courscio_course c inner join courscio_schedule s on c.id = s.teaching_id",
+            "inner join courscio_cart a on a.course_id = s.teaching_id",
+             "where a.id = #{id}",
     })
     @Results({
             @Result(column = "id", property = "id", jdbcType = JdbcType.BIGINT, id = true),
@@ -58,4 +67,20 @@ public interface CartRepository {
             @Result(column = "room", property = "room", jdbcType = JdbcType.VARCHAR)
     })
     List<Schedule> getSchedule(Long id);
+
+    @Select({"select * from courscio_schedule",
+            "where courscio_schedule.teaching_id = #{teaching_id}",
+    })
+    @Results({
+            @Result(column = "id", property = "id", jdbcType = JdbcType.BIGINT, id = true),
+            @Result(column = "teaching_id", property = "teachingId", jdbcType = JdbcType.BIGINT),
+            @Result(column = "weekday", property = "weekDay", javaType = Schedule.WeekDay.class, typeHandler = Schedule.WeekDay.Handler.class),
+            @Result(column = "start_t", property = "start_t", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "end_t", property = "end_t", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "building", property = "building", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "room", property = "room", jdbcType = JdbcType.VARCHAR)
+    })
+    List<Schedule> getNewSchedule(Long teaching_id);
+
+
 }

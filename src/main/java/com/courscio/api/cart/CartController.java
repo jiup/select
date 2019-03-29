@@ -30,7 +30,7 @@ public class CartController {
 
     @PostMapping("/{userId}/cart")
     public HttpStatus post(@ModelAttribute CartItem cartItem, @PathVariable Long userId) {
-        if (cartItem.getType() == CartItem.Type.wishlist || cartService.checkValidReserve(cartItem.getId(), userId)) {
+        if (cartItem.getType() == CartItem.Type.wishlist || cartService.checkValidReserve(cartItem.getCourseId(), userId)) {
             return  cartService.addCartItem(cartItem) ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
         }
         return HttpStatus.BAD_REQUEST;
@@ -38,7 +38,8 @@ public class CartController {
 
     @PutMapping("/{userId}/cart/{id}")
     public HttpStatus put(@PathVariable Long id, CartItem.Type type, @PathVariable Long userId) {
-        if (!cartService.checkValidReserve(id, userId) && type == CartItem.Type.reserved) {
+        CartItem item = cartService.getItem(id);
+        if (!cartService.checkValidReserve(item.getCourseId(), userId) && type == CartItem.Type.reserved) {
             return HttpStatus.BAD_REQUEST;
         }
         return cartService.updateCartItemType(id, type) ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
