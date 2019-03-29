@@ -1,5 +1,6 @@
 package com.courscio.api.cart;
 
+import com.courscio.api.schedule.Schedule;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 import org.springframework.stereotype.Repository;
@@ -42,4 +43,19 @@ public interface CartRepository {
             "delete from courscio_cart where id = #{id}"
     })
     int deleteById(long id);
+
+    @Select({"select * from courscio_course c inner join courscio_teaching t on c.id = t.course_id",
+             "inner join courscio_schedule s on s.teaching_id = t.id",
+             "where s.teaching_id = #{id}",
+    })
+    @Results({
+            @Result(column = "id", property = "id", jdbcType = JdbcType.BIGINT, id = true),
+            @Result(column = "teachingId", property = "teachingId", jdbcType = JdbcType.BIGINT),
+            @Result(column = "weekDay", property = "weekDay", javaType = Schedule.WeekDay.class, typeHandler = Schedule.WeekDay.Handler.class),
+            @Result(column = "start_t", property = "start_t", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "end_t", property = "end_t", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "building", property = "building", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "room", property = "room", jdbcType = JdbcType.VARCHAR)
+    })
+    List<Schedule> getSchedule(Long id);
 }

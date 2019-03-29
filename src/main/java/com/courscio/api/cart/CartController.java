@@ -13,7 +13,7 @@ import java.util.List;
  * @since 03/14/2019
  */
 @RestController("cartController")
-@RequestMapping("/user/{userId}/cart")
+@RequestMapping("/user")
 public class CartController {
     private final CartService cartService;
 
@@ -22,23 +22,30 @@ public class CartController {
         this.cartService = cartService;
     }
 
-    @GetMapping
+    @GetMapping("/{userId}/cartItems")
     public ResponseEntity<List<CartItem>> get(@PathVariable Long userId) {
         return new ResponseEntity<>(cartService.listByUserId(userId), HttpStatus.OK);
     }
 
-    @PostMapping
-    public HttpStatus post(@ModelAttribute CartItem cartItem) {
-        return cartService.addCartItem(cartItem) ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
+
+    @PostMapping("/{userId}/cart")
+    public HttpStatus post(@ModelAttribute CartItem cartItem, @PathVariable Long userId) {
+        if (cartItem.getType() == CartItem.Type.wishlist || cartService.checkValidReserve(cartItem.getId(), userId)) {
+            return  cartService.addCartItem(cartItem) ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
+        }
+        return HttpStatus.BAD_REQUEST;
     }
 
-    @PutMapping("/{id}")
-    public HttpStatus put(@PathVariable Long id, CartItem.Type type) {
+    @PutMapping("/{userId}/cart/{id}")
+    public HttpStatus put(@PathVariable Long id, CartItem.Type type, @PathVariable Long userId) {
+        if (!cartService.checkValidReserve(id, userId) && type == CartItem.Type.reserved) {
+            return HttpStatus.BAD_REQUEST;
+        }
         return cartService.updateCartItemType(id, type) ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
     }
 
-    @Delete("/{id}")
-    public HttpStatus delete(@PathVariable Long id) {
+    @Delete("/{userId}/cart/{id}")
+    public HttpStatus delete(@PathVariable Long id, @PathVariable Long userId) {
         return cartService.deleteCartItem(id) ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
     }
 }
