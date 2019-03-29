@@ -1,14 +1,16 @@
 package com.courscio.api.course;
 
-import com.courscio.api.schedule.Schedule;
-import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiParam;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -18,6 +20,7 @@ import java.util.List;
 @RestController("courseController")
 @RequestMapping("/course")
 public class CourseController {
+    private static final Logger LOG = LoggerFactory.getLogger(CourseController.class);
     private final CourseService courseService;
 
     @Autowired
@@ -26,18 +29,19 @@ public class CourseController {
     }
 
     @GetMapping("/keyword")
-    public ResponseEntity<List<Course>> listByKeyword(@RequestParam("keyword") String keyword) {
+    public ResponseEntity<?> listByKeyword(@RequestParam("keyword") String keyword) {
         if (keyword.trim().length() < 4) {
-            return new ResponseEntity<>(Collections.emptyList(), HttpStatus.BAD_REQUEST);
+            LOG.warn("bad-request: keyword too short (< 4)", keyword.trim());
+            return ResponseEntity.badRequest().body("keyword too short (length < 4)");
         }
         return new ResponseEntity<>(courseService.listByCombinedKeyword(keyword), HttpStatus.OK);
     }
 
     @GetMapping("/filters")
     public ResponseEntity<List<CourseResult>> listByFilters(@RequestParam("semester") String semester,
-                                                      @RequestParam("major") String major,
-                                                      @RequestParam(value= "credit", required = false) @ApiParam(required = false) Short credit,
-                                                      @RequestParam(value = "weekdays", required = false) @ApiParam(required = false) List<String> weekdays) {
+                                                            @RequestParam("major") String major,
+                                                            @RequestParam(value = "credit", required = false) @ApiParam(required = false) Short credit,
+                                                            @RequestParam(value = "weekdays", required = false) @ApiParam(required = false) List<String> weekdays) {
         return new ResponseEntity<>(courseService.listByFilters(semester, major, credit, weekdays),
                 HttpStatus.OK);
     }

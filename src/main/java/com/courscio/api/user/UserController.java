@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController("userController")
 @RequestMapping("/user")
 public class UserController {
-
     private final UserService userService;
 
     @Autowired
@@ -27,10 +26,6 @@ public class UserController {
     @GetMapping("/{id}")
     @PreAuthorize("authentication.principal.get(\"id\").toString().equals(\"\" + #id)")
     public ResponseEntity<?> get(@PathVariable Long id) {
-        User user = userService.getById(id);
-        if (user == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return new ResponseEntity<>(UserView.from(user), HttpStatus.OK);
+        return new ResponseEntity<>(UserView.from(userService.getById(id)), HttpStatus.OK);
     }
 }

@@ -15,9 +15,11 @@ public class UserView {
 
     public static UserView from(User user) {
         UserView userView = new UserView();
-        BeanUtils.copyProperties(user, userView);
-        userView.setName(user.getNickname());
-        userView.setBeginner(user.isBeginner());
+        if (user != null) {
+            BeanUtils.copyProperties(user, userView);
+            userView.setName(user.getNickname());
+            userView.setBeginner(user.isBeginner());
+        }
         return userView;
     }
 

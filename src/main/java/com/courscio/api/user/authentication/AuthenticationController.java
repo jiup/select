@@ -7,6 +7,8 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.common.collect.ImmutableMap;
 import io.jsonwebtoken.Jwts;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +29,7 @@ import java.util.StringJoiner;
  */
 @RestController("authenticationController")
 public class AuthenticationController {
+    private static final Logger LOG = LoggerFactory.getLogger(AuthenticationController.class);
     public static final String PATH = "/auth";
 
     private final UserService userService;
@@ -41,34 +44,40 @@ public class AuthenticationController {
     @DeleteMapping(PATH)
     public ResponseEntity<?> auth(HttpServletRequest request, HttpServletResponse response) {
         if (request.getHeader(JwtConstant.HEADER) == null) {
+            LOG.warn("bad-request: authentication header not exists.");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
 
         response.setHeader(JwtConstant.HEADER, null);
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.status(HttpStatus.OK).body("OK");
     }
 
     @PostMapping(PATH)
     public ResponseEntity<?> auth(@ModelAttribute Authentication authentication, HttpServletRequest request) {
         if (authentication.email == null || authentication.token == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            LOG.warn("bad-request: incomplete authorization fields (email/token)");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid Auth Request");
         }
 
         GoogleIdToken idToken;
         try {
             if ((idToken = tokenVerifier.verify(authentication.token)) == null) {
+                LOG.warn("forbidden: g_token validation not passed ({})", authentication.token);
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Token Expired");
             }
         } catch (Exception e) {
+            LOG.warn("forbidden: invalid g_token ({})", authentication.token);
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid Token");
         }
 
         GoogleIdToken.Payload payload = idToken.getPayload();
         if (!payload.getEmail().equals(authentication.email) || !payload.getEmailVerified()) {
+            LOG.warn("forbidden: request email/g_payload not match ({} != {})", authentication.email, payload.getEmail());
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Access Forbidden");
         }
 
         if (!isUniversityOfRochesterEmail(authentication.email)) {
+            LOG.warn("not-acceptable: non-educational email address ({})", authentication.email);
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Educational Email Required");
         }
 
@@ -76,6 +85,7 @@ public class AuthenticationController {
         if (user == null) {
             user = newDefaultUser(authentication.email);
             if (!userService.add(user)) {
+                LOG.warn("internal-server-error: user add failure ({})", user);
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
             }
         }
@@ -89,6 +99,7 @@ public class AuthenticationController {
         user.setUpdateTime(ZonedDateTime.now());
 
         if (!userService.updatePartialFields(user)) {
+            LOG.warn("internal-server-error: user update failure ({})", user);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
         return ResponseEntity.status(HttpStatus.OK)

@@ -3,6 +3,8 @@ package com.courscio.api.user.authentication;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,7 +24,7 @@ import static com.courscio.api.user.authentication.JwtConstant.*;
  * @since 03/25/2019
  */
 public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
-
+    private static final Logger LOG = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
     private static ObjectMapper mapper = new ObjectMapper();
 
     public JwtAuthenticationFilter(AuthenticationManager authenticationManager) {
@@ -58,7 +60,7 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
                     .getBody();
 
             if (!validateClaims(claims, request)) {
-                System.err.println("Illegal Token, Now Removed!");
+                LOG.warn("illegal token {} found and removed.", claims.toString());
                 response.setHeader(HEADER, null);
                 return null;
             }
@@ -66,24 +68,24 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
             return new UsernamePasswordAuthenticationToken(claims, null, Collections.emptyList());
 
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            LOG.warn("illegal token: jwt parse error ({})", e.getMessage());
             return null;
         }
     }
 
     private boolean validateClaims(Claims claims, HttpServletRequest request) {
         if (!claims.getOrDefault("role", "undefined").equals("student")) {
-            System.err.println("illegal role");
+            LOG.warn("illegal token: role ({})", claims.getOrDefault("role", "undefined"));
             return false;
         }
 
         if (!claims.getOrDefault("ua", "undefined").equals(request.getHeader("user-agent"))) {
-            System.err.println("illegal ua");
+            LOG.warn("illegal token: user-agent ({})", claims.getOrDefault("ua", "undefined"));
             return false;
         }
 
         if (!claims.getOrDefault("ip", "undefined").equals(request.getRemoteAddr())) {
-            System.err.println("illegal ip");
+            LOG.warn("illegal token: ip ({})", claims.getOrDefault("ip", "undefined"));
             return false;
         }
 
