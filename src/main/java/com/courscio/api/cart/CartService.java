@@ -25,8 +25,14 @@ public class CartService {
         return cartRepository.listByUserId(userId);
     }
 
+    public CartItem getItem(Long id) {return cartRepository.getItem(id);}
+
     public List<Schedule> getSchedule (Long id){
         return cartRepository.getSchedule(id);
+    }
+
+    private List<Schedule> getNewSchedule(Long course_id) {
+        return cartRepository.getNewSchedule(course_id);
     }
 
     public boolean addCartItem(CartItem cartItem) {
@@ -41,8 +47,8 @@ public class CartService {
         return cartRepository.updateTypeById(id, type) > 0;
     }
 
-    public boolean checkValidReserve(Long cart_id, Long userId){
-        List<Schedule> newSches = getSchedule(cart_id);
+    public boolean checkValidReserve(Long course_id, Long userId){
+        List<Schedule> newSches = getNewSchedule(course_id);
         List<CartItem> userCartList = cartRepository.listByUserId(userId);
         if (userCartList == null) {
             return true;
@@ -67,7 +73,6 @@ public class CartService {
         if (s1.getWeekDay() != s2.getWeekDay()) {
             return false;
         }
-
         int start_t1 = Integer.parseInt(s1.getStart_t());
         int end_t1 = Integer.parseInt(s1.getEnd_t());
         int start_t2 = Integer.parseInt(s2.getStart_t());
@@ -79,15 +84,12 @@ public class CartService {
         if (end_t2 >= start_t1 && end_t2 <= end_t1) {
             return true;
         }
-
         if (start_t1 >= start_t2 && start_t1 <= end_t2) {
             return true;
         }
-
         if (end_t1 >= start_t2 && end_t1 <= end_t2) {
             return true;
         }
-
         return false;
     }
 }
