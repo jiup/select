@@ -50,8 +50,8 @@ public interface CartRepository {
     })
     @Results({
             @Result(column = "id", property = "id", jdbcType = JdbcType.BIGINT, id = true),
-            @Result(column = "teachingId", property = "teachingId", jdbcType = JdbcType.BIGINT),
-            @Result(column = "weekDay", property = "weekDay", javaType = Schedule.WeekDay.class, typeHandler = Schedule.WeekDay.Handler.class),
+            @Result(column = "teaching_id", property = "teachingId", jdbcType = JdbcType.BIGINT),
+            @Result(column = "weekday", property = "weekDay", javaType = Schedule.WeekDay.class, typeHandler = Schedule.WeekDay.Handler.class),
             @Result(column = "start_t", property = "start_t", jdbcType = JdbcType.VARCHAR),
             @Result(column = "end_t", property = "end_t", jdbcType = JdbcType.VARCHAR),
             @Result(column = "building", property = "building", jdbcType = JdbcType.VARCHAR),

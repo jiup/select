@@ -67,6 +67,7 @@ public class CartService {
         if (s1.getWeekDay() != s2.getWeekDay()) {
             return false;
         }
+
         int start_t1 = Integer.parseInt(s1.getStart_t());
         int end_t1 = Integer.parseInt(s1.getEnd_t());
         int start_t2 = Integer.parseInt(s2.getStart_t());
@@ -86,6 +87,7 @@ public class CartService {
         if (end_t1 >= start_t2 && end_t1 <= end_t2) {
             return true;
         }
+
         return false;
     }
 }

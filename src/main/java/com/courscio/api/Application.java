@@ -75,7 +75,7 @@ public class Application {
         ds.setDriverClassName(com.mysql.cj.jdbc.Driver.class.getName());
         ds.setJdbcUrl("jdbc:mysql://localhost:3306/courscio?characterEncoding=UTF8&serverTimezone=UTC&useSSL=false");
         ds.addDataSourceProperty("user", "root");
-        ds.addDataSourceProperty("password", "");
+        ds.addDataSourceProperty("password", "root");
         ds.addDataSourceProperty("cachePrepStmts", true);
         ds.addDataSourceProperty("prepStmtCacheSize", 250);
         ds.addDataSourceProperty("prepStmtCacheSqlLimit", 2048);
@@ -178,12 +178,12 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, AuthenticationController.PATH).permitAll()
                 .mvcMatchers(Application.CONTEXT_PATH).permitAll()
-                .mvcMatchers("/**/teaching/**").permitAll()
-                .mvcMatchers("/**/professor/**").permitAll()
-                .mvcMatchers("/**/course/**").permitAll()
-                .mvcMatchers("/**/user/**").authenticated()
-                .mvcMatchers("/**/cart/**").authenticated()
-                .mvcMatchers("/**/schedule/**").authenticated()
+//                .mvcMatchers("/**/teaching/**").permitAll()
+//                .mvcMatchers("/**/professor/**").permitAll()
+//                .mvcMatchers("/**/course/**").permitAll()
+//                .mvcMatchers("/**/user/**").authenticated()
+//                .mvcMatchers("/**/cart/**").authenticated()
+//                .mvcMatchers("/**/schedule/**").authenticated()
                 .and()
                 .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint()).and()
                 .formLogin().successHandler(successHandler()).failureHandler(failureHandler()).and()
