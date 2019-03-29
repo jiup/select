@@ -3,6 +3,24 @@ package com.courscio.api.course;
 import com.courscio.api.schedule.Schedule;
 
 public class CourseResult {
+	private Long id;
+	private Long schoolId;
+	private String semester;
+	private String major;
+	private String crn;
+	private String cname;
+	private String title;
+	private Short credit;
+	private Short score;
+	private String description;
+	private String prerequisite;
+	private String weekday;
+	private String start_t;
+	private String end_t;
+	private String key;
+	private String location;
+	private String name;
+
     public Long getId() {
 		return id;
 	}
@@ -87,21 +105,6 @@ public class CourseResult {
 	public void setEnd_t(String end_t) {
 		this.end_t = end_t;
 	}
-	private Long id;
-    private Long schoolId;
-    private String semester;
-    private String major;
-    private String crn;
-    private String cname;
-    private String title;
-    private Short credit;
-    private Short score;
-    private String description;
-    private String prerequisite;
-    private String weekday;
-    private String start_t;
-    private String end_t;
-    private String key;
     
 	public String getKey() {
 		return key;
@@ -109,9 +112,6 @@ public class CourseResult {
 	public void setKey(Long key) {
 		this.key = key.toString()+this.weekday;
 	}
-
-	private String location;
-	private String name;
 
 	public String getLocation() {
 		return location;
