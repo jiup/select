@@ -103,6 +103,7 @@ public class AuthenticationController {
                         .setSubject(JwtConstant.SUBJECT)
                         .signWith(JwtConstant.SECRET_KEY)
                         .addClaims(new ImmutableMap.Builder<String, Object>()
+                                .put("id", user.getId())
                                 .put("role", user.getType().name())
                                 .put("ip", request.getRemoteAddr())
                                 .put("ua", request.getHeader("user-agent"))

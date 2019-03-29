@@ -63,7 +63,7 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
                 return null;
             }
 
-            return new UsernamePasswordAuthenticationToken(token, null, Collections.emptyList());
+            return new UsernamePasswordAuthenticationToken(claims, null, Collections.emptyList());
 
         } catch (Exception e) {
             System.err.println(e.getMessage());
