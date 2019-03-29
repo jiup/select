@@ -54,7 +54,8 @@ import java.util.Collections;
 public class Application {
     public static final String VERSION_MAJOR = "1";
     public static final String VERSION_MINOR = "0";
-    public static final String REVISION = "3";
+    public static final String REVISION = "4";
+    public static final String VERSION = VERSION_MAJOR + "." + VERSION_MINOR + "." + REVISION;
     public static final String CONTEXT_PATH = "/api/v" + VERSION_MAJOR;
     public static final String G_CLIENT_ID = "1008678353700-5sm5h523ni8qugq62odmk5pn4j2s4brk.apps.googleusercontent.com";
 

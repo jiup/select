@@ -21,6 +21,6 @@ public class GlobalController {
         return root.put("message", "Welcome to Courscio API Center")
                 .put("developer", "Jiupeng (jiupeng.zhang@rochester.edu)")
                 .put("documentation_url", "https://doc.courscio.com/api")
-                .put("version", "1.0.1");
+                .put("version", Application.VERSION);
     }
 }
