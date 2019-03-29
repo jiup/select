@@ -19,4 +19,20 @@ public class UserService {
     public User getById(Long id) {
         return userRepository.findById(id);
     }
+
+    public User getByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
+    public boolean add(User user) {
+        return userRepository.insert(user) > 0;
+    }
+
+    public boolean updateToken(User user) {
+        return userRepository.updateTokenById(user.getId(), user.getPassword()) > 0;
+    }
+
+    public boolean updatePartialFields(User user) {
+        return userRepository.updateById(user) > 0;
+    }
 }
