@@ -75,7 +75,7 @@ public class Application {
         ds.setDriverClassName(com.mysql.cj.jdbc.Driver.class.getName());
         ds.setJdbcUrl("jdbc:mysql://localhost:3306/courscio?characterEncoding=UTF8&serverTimezone=UTC&useSSL=false");
         ds.addDataSourceProperty("user", "root");
-        ds.addDataSourceProperty("password", "root");
+        ds.addDataSourceProperty("password", "");
         ds.addDataSourceProperty("cachePrepStmts", true);
         ds.addDataSourceProperty("prepStmtCacheSize", 250);
         ds.addDataSourceProperty("prepStmtCacheSqlLimit", 2048);
@@ -98,6 +98,7 @@ public class Application {
     @Bean("apiDocumentation")
     public Docket apiDocumentation(ServletContext servletContext) {
         return new Docket(DocumentationType.SWAGGER_2)
+                .host("127.0.0.1:8080")
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.courscio.api"))
                 .build()
@@ -178,12 +179,12 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, AuthenticationController.PATH).permitAll()
                 .mvcMatchers(Application.CONTEXT_PATH).permitAll()
-//                .mvcMatchers("/**/teaching/**").permitAll()
-//                .mvcMatchers("/**/professor/**").permitAll()
-//                .mvcMatchers("/**/course/**").permitAll()
-//                .mvcMatchers("/**/user/**").authenticated()
-//                .mvcMatchers("/**/cart/**").authenticated()
-//                .mvcMatchers("/**/schedule/**").authenticated()
+                .mvcMatchers("/**/teaching/**").permitAll()
+                .mvcMatchers("/**/professor/**").permitAll()
+                .mvcMatchers("/**/course/**").permitAll()
+                .mvcMatchers("/**/user/**").authenticated()
+                .mvcMatchers("/**/cart/**").authenticated()
+                .mvcMatchers("/**/schedule/**").authenticated()
                 .and()
                 .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint()).and()
                 .formLogin().successHandler(successHandler()).failureHandler(failureHandler()).and()
@@ -196,10 +197,7 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     private AuthenticationSuccessHandler successHandler() {
-        return (request, response, authentication) -> {
-            System.out.println(authentication);
-            response.sendError(Response.SC_OK, "OK");
-        };
+        return (request, response, authentication) -> response.sendError(Response.SC_OK, "OK");
     }
 
     private AuthenticationFailureHandler failureHandler() {

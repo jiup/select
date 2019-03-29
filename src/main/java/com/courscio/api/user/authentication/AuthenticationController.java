@@ -57,15 +57,19 @@ public class AuthenticationController {
         GoogleIdToken idToken;
         try {
             if ((idToken = tokenVerifier.verify(authentication.token)) == null) {
-                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid Token");
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Token Expired");
             }
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid Token");
         }
 
         GoogleIdToken.Payload payload = idToken.getPayload();
         if (!payload.getEmail().equals(authentication.email) || !payload.getEmailVerified()) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Access Forbidden");
+        }
+
+        if (!isUniversityOfRochesterEmail(authentication.email)) {
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Educational Email Required");
         }
 
         User user = userService.getByEmail(authentication.email);
@@ -121,6 +125,10 @@ public class AuthenticationController {
         user.setType(User.Type.student);
         user.setLoginCount(0);
         return user;
+    }
+
+    private boolean isUniversityOfRochesterEmail(String email) {
+        return email.endsWith("rochester.edu");
     }
 
     private static class Authentication {
