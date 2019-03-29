@@ -98,6 +98,7 @@ public class Application {
     @Bean("apiDocumentation")
     public Docket apiDocumentation(ServletContext servletContext) {
         return new Docket(DocumentationType.SWAGGER_2)
+                .host("127.0.0.1:8080")
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.courscio.api"))
                 .build()
@@ -196,10 +197,7 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     private AuthenticationSuccessHandler successHandler() {
-        return (request, response, authentication) -> {
-            System.out.println(authentication);
-            response.sendError(Response.SC_OK, "OK");
-        };
+        return (request, response, authentication) -> response.sendError(Response.SC_OK, "OK");
     }
 
     private AuthenticationFailureHandler failureHandler() {

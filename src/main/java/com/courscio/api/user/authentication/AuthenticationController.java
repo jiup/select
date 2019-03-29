@@ -57,10 +57,10 @@ public class AuthenticationController {
         GoogleIdToken idToken;
         try {
             if ((idToken = tokenVerifier.verify(authentication.token)) == null) {
-                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid Token");
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Token Expired");
             }
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid Token");
         }
 
         GoogleIdToken.Payload payload = idToken.getPayload();
