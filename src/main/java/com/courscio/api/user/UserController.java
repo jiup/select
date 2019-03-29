@@ -1,10 +1,9 @@
 package com.courscio.api.user;
 
-import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,12 +25,8 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> get(@PathVariable Long id, Authentication authentication) {
-        Claims claims = (Claims) authentication.getPrincipal();
-        if (!claims.get("id").toString().equals("" + id)) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Forbidden");
-        }
-
+    @PreAuthorize("authentication.principal.get(\"id\").toString().equals(\"\" + #id)")
+    public ResponseEntity<?> get(@PathVariable Long id) {
         User user = userService.getById(id);
         if (user == null) {
             return ResponseEntity.notFound().build();
