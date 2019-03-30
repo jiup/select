@@ -191,6 +191,7 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .mvcMatchers("/**/user/**").authenticated()
                 .mvcMatchers("/**/cart/**").authenticated()
                 .mvcMatchers("/**/schedule/**").authenticated()
+                .mvcMatchers("/**/rating/**").authenticated()
                 .and()
                 .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint()).and()
                 .formLogin().successHandler(successHandler()).failureHandler(failureHandler()).and()

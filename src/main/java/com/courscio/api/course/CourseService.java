@@ -22,7 +22,7 @@ public class CourseService {
         this.courseRepository = courseRepository;
     }
 
-    public List<Course> listByCombinedKeyword(String keyword) {
+    public List<CourseResult> listByCombinedKeyword(String keyword) {
         return courseRepository.listByCombinedKeyword(keyword);
     }
 
