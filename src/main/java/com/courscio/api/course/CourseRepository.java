@@ -22,13 +22,13 @@ public interface CourseRepository {
 
 
     @Select({
-            "select c.id, school_id, semester, major, crn, cname, title, credit, score, `desc`, preq, weekday, start_t, end_t, t.id, name, location",
+            "select c.id, school_id, semester, major, crn, cname, title, credit, score, 'desc', preq, weekday, start_t, end_t, t.id, name, location",
             "from courscio_course c inner join courscio_teaching t on c.id = t.course_id inner join courscio_schedule s on s.teaching_id = t.id inner join courscio_professor p on p.id =t.professor_id where cname like concat('%', #{keyword}, '%')",
-            "union (select c.id, school_id, semester, major, crn, cname, title, credit, score, `desc`, preq, weekday, start_t, end_t, t.id, name, location",
+            "union (select c.id, school_id, semester, major, crn, cname, title, credit, score, 'desc', preq, weekday, start_t, end_t, t.id, name, location",
             "from courscio_course c inner join courscio_teaching t on c.id = t.course_id inner join courscio_schedule s on s.teaching_id = t.id inner join courscio_professor p on p.id =t.professor_id where title like concat('%', #{keyword}, '%'))",
-            "union (select c.id, school_id, semester, major, crn, cname, title, credit, score, `desc`, preq, weekday, start_t, end_t, t.id, name, location",
-            "from courscio_course c inner join courscio_teaching t on c.id = t.course_id inner join courscio_schedule s on s.teaching_id = t.id inner join courscio_professor p on p.id =t.professor_id where MATCH(c.`desc`) against (#{keyword} in NATURAL LANGUAGE MODE)",
-            "union (select c.id, school_id, semester, major, crn, cname, title, credit, score, `desc`, preq, weekday, start_t, end_t, t.id, name, location",
+            "union (select c.id, school_id, semester, major, crn, cname, title, credit, score, 'desc', preq, weekday, start_t, end_t, t.id, name, location",
+            "from courscio_course c inner join courscio_teaching t on c.id = t.course_id inner join courscio_schedule s on s.teaching_id = t.id inner join courscio_professor p on p.id =t.professor_id where MATCH(c.'desc') against (#{keyword} in NATURAL LANGUAGE MODE)",
+            "union (select c.id, school_id, semester, major, crn, cname, title, credit, score, 'desc', preq, weekday, start_t, end_t, t.id, name, location",
             "from courscio_course c inner join courscio_teaching t on c.id = t.course_id inner join courscio_schedule s on s.teaching_id = t.id inner join courscio_professor p on p.id =t.professor_id where MATCH(p.name) against (#{keyword} in NATURAL LANGUAGE MODE)",
     })
     @Results({
