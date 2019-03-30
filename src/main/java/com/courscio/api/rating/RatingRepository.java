@@ -16,7 +16,7 @@ import java.util.List;
 @Mapper
 @Repository
 public interface RatingRepository {
-	@Select("select * from courscio_rating where id = #{Id}")
+	@Select("select * from courscio_rating where teaching_id = #{teaching_id}")
     @Results({
             @Result(column = "id", property = "id", jdbcType = JdbcType.BIGINT, id = true),
             @Result(column = "user_id", property = "user_id", jdbcType = JdbcType.BIGINT),
@@ -24,7 +24,7 @@ public interface RatingRepository {
             @Result(column = "score", property = "score", jdbcType = JdbcType.INTEGER),
             @Result(column = "comment", property = "comment", jdbcType = JdbcType.VARCHAR),
     })
-    List<Rating> findById(long Id);
+    List<Rating> findById(long teaching_id);
 	
 	@Insert({
         "insert into courscio_rating (id, user_id, teaching_id, score, comment)",

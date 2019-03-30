@@ -19,9 +19,9 @@ public class RatingController {
         this.ratingService = ratingService;
     }
 
-    @GetMapping("/{}")
-    public ResponseEntity<List<Rating>> get(@PathVariable Long Id) {
-        return new ResponseEntity<>(ratingService.findById(Id), HttpStatus.OK);
+    @GetMapping("/{teaching_id}")
+    public ResponseEntity<List<Rating>> get(@PathVariable Long teaching_id) {
+        return new ResponseEntity<>(ratingService.findById(teaching_id), HttpStatus.OK);
     }
 
     @PostMapping

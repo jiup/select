@@ -14,8 +14,8 @@ public class RatingService {
         this.ratingRepository = ratingRepository;
     }
     
-    public List<Rating> findById(long Id) {
-    	return ratingRepository.findById(Id);
+    public List<Rating> findById(long teaching_id) {
+    	return ratingRepository.findById(teaching_id);
     }
     
     public boolean addRating(Rating rating) {
