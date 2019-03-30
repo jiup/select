@@ -22,17 +22,17 @@ public interface CourseRepository {
 
 
     @Select({
-            "select id, school_id, semester, major, crn, cname, title, credit, score, `desc`, preq, weekday, start_t, end_t, t.id, name, location",
+            "select c.id, school_id, semester, major, crn, cname, title, credit, score, `desc`, preq, weekday, start_t, end_t, t.id, name, location",
             "from courscio_course c inner join courscio_teaching t on c.id = t.course_id inner join courscio_schedule s on s.teaching_id = t.id inner join courscio_professor p on p.id =t.professor_id where cname like concat('%', #{keyword}, '%')",
-            "union (select id, school_id, semester, major, crn, cname, title, credit, score, `desc`, preq, weekday, start_t, end_t, t.id, name, location",
+            "union (select c.id, school_id, semester, major, crn, cname, title, credit, score, `desc`, preq, weekday, start_t, end_t, t.id, name, location",
             "from courscio_course c inner join courscio_teaching t on c.id = t.course_id inner join courscio_schedule s on s.teaching_id = t.id inner join courscio_professor p on p.id =t.professor_id where title like concat('%', #{keyword}, '%'))",
-            "union (select id, school_id, semester, major, crn, cname, title, credit, score, `desc`, preq, weekday, start_t, end_t, t.id, name, location",
+            "union (select c.id, school_id, semester, major, crn, cname, title, credit, score, `desc`, preq, weekday, start_t, end_t, t.id, name, location",
             "from courscio_course c inner join courscio_teaching t on c.id = t.course_id inner join courscio_schedule s on s.teaching_id = t.id inner join courscio_professor p on p.id =t.professor_id where MATCH(c.`desc`) against (#{keyword} in NATURAL LANGUAGE MODE)",
-            "union (select id, school_id, semester, major, crn, cname, title, credit, score, `desc`, preq, weekday, start_t, end_t, t.id, name, location",
+            "union (select c.id, school_id, semester, major, crn, cname, title, credit, score, `desc`, preq, weekday, start_t, end_t, t.id, name, location",
             "from courscio_course c inner join courscio_teaching t on c.id = t.course_id inner join courscio_schedule s on s.teaching_id = t.id inner join courscio_professor p on p.id =t.professor_id where MATCH(p.name) against (#{keyword} in NATURAL LANGUAGE MODE)",
     })
     @Results({
-            @Result(column = "id", property = "id", jdbcType = JdbcType.BIGINT),
+            @Result(column = "c.id", property = "id", jdbcType = JdbcType.BIGINT),
             @Result(column = "school_id", property = "schoolId", jdbcType = JdbcType.BIGINT),
             @Result(column = "semester", property = "semester", jdbcType = JdbcType.VARCHAR),
             @Result(column = "major", property = "major", jdbcType = JdbcType.VARCHAR),
