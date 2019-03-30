@@ -30,7 +30,7 @@ public interface CourseRepository {
             "where a.id=c.course_id and b.id=c.professor_id and d.teaching_id = c.id and b.name like concat('%', #{keyword}, '%'))",
     })
     @Results({
-            @Result(column = "id", property = "id", jdbcType = JdbcType.BIGINT),
+            @Result(column = "a.id", property = "id", jdbcType = JdbcType.BIGINT),
             @Result(column = "school_id", property = "schoolId", jdbcType = JdbcType.BIGINT),
             @Result(column = "semester", property = "semester", jdbcType = JdbcType.VARCHAR),
             @Result(column = "major", property = "major", jdbcType = JdbcType.VARCHAR),
@@ -44,7 +44,7 @@ public interface CourseRepository {
             @Result(column = "weekday", property = "weekday", javaType = Schedule.WeekDay.class, typeHandler = Schedule.WeekDay.Handler.class),
             @Result(column = "start_t", property = "start_t", jdbcType = JdbcType.VARCHAR),
             @Result(column = "end_t", property = "end_t", jdbcType = JdbcType.VARCHAR),
-            @Result(column = "id", property = "key", jdbcType = JdbcType.BIGINT, id = true),
+            @Result(column = "c.id", property = "key", jdbcType = JdbcType.BIGINT, id = true),
             @Result(column = "name", property = "name", jdbcType = JdbcType.VARCHAR),
             @Result(column = "location", property = "location", jdbcType = JdbcType.VARCHAR),
     })
