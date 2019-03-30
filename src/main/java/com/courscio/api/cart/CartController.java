@@ -37,8 +37,13 @@ public class CartController {
     @PreAuthorize("authentication.principal.get(\"id\").toString().equals(\"\" + #userId)")
     public HttpStatus post(@ModelAttribute CartItem cartItem, @PathVariable Long userId) {
         if (cartItem.getType() == CartItem.Type.wishlist || cartService.checkValidReserve(cartItem.getCourseId(), userId)) {
-            return cartService.addCartItem(cartItem) ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
+            if (cartService.addCartItem(cartItem)) {
+                return HttpStatus.OK;
+            }
+            LOG.warn("bad-request: unknown issue when adding cart item (courseId={}, userId={})", cartItem.getCourseId(), userId);
+            return HttpStatus.BAD_REQUEST;
         }
+        LOG.warn("not-acceptable: conflict exists when adding cart item (courseId={}, userId={})", cartItem.getCourseId(), userId);
         return HttpStatus.BAD_REQUEST;
     }
 
