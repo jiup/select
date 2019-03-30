@@ -83,7 +83,7 @@ public class Application extends SpringBootServletInitializer {
         ds.setDriverClassName(com.mysql.cj.jdbc.Driver.class.getName());
         ds.setJdbcUrl("jdbc:mysql://localhost:3306/courscio?characterEncoding=UTF8&serverTimezone=UTC&useSSL=false");
         ds.addDataSourceProperty("user", "root");
-        ds.addDataSourceProperty("password", "");
+        ds.addDataSourceProperty("password", "root");
         ds.addDataSourceProperty("cachePrepStmts", true);
         ds.addDataSourceProperty("prepStmtCacheSize", 250);
         ds.addDataSourceProperty("prepStmtCacheSqlLimit", 2048);

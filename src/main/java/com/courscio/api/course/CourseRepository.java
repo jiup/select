@@ -59,7 +59,7 @@ public interface CourseRepository {
                 "<choose>"+
                 "<when test = \"credit != null\">"+
     			"select * from courscio_course c inner join courscio_teaching t on c.id = t.course_id",
-    			"inner join courscio_schedule s on s.teaching_id = t.id",
+    			"inner join courscio_schedule s on s.teaching_id = t.id inner join courscio_professor p on p.id =t.professor_id",
     			"where semester = #{semester} and major = #{major} and credit = #{credit} and weekday in "+
     					"<foreach item='item' index='index' collection='scanWeekday' open='(' separator=',' close=')'>" +
     					"#{item}"+
@@ -67,7 +67,7 @@ public interface CourseRepository {
                 "</when>"+
                 "<otherwise>"+
                 "select * from courscio_course c inner join courscio_teaching t on c.id = t.course_id",
-                "inner join courscio_schedule s on s.teaching_id = t.id",
+                "inner join courscio_schedule s on s.teaching_id = t.id inner join courscio_professor p on p.id =t.professor_id",
                 "where semester = #{semester} and major = #{major} and weekday in "+
                         "<foreach item='item' index='index' collection='scanWeekday' open='(' separator=',' close=')'>" +
                         "#{item}"+
