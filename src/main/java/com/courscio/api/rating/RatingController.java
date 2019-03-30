@@ -6,6 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @RestController("ratingController")
 @RequestMapping("/rating")
@@ -17,8 +19,8 @@ public class RatingController {
         this.ratingService = ratingService;
     }
 
-    @GetMapping
-    public ResponseEntity<Rating> get(@PathVariable Long Id) {
+    @GetMapping("/{}")
+    public ResponseEntity<List<Rating>> get(@PathVariable Long Id) {
         return new ResponseEntity<>(ratingService.findById(Id), HttpStatus.OK);
     }
 

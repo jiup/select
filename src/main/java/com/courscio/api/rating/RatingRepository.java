@@ -11,6 +11,8 @@ import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.type.JdbcType;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Mapper
 @Repository
 public interface RatingRepository {
@@ -22,7 +24,7 @@ public interface RatingRepository {
             @Result(column = "score", property = "score", jdbcType = JdbcType.INTEGER),
             @Result(column = "comment", property = "comment", jdbcType = JdbcType.VARCHAR),
     })
-    Rating findById(long Id);
+    List<Rating> findById(long Id);
 	
 	@Insert({
         "insert into courscio_rating (id, user_id, teaching_id, score, comment)",

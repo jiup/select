@@ -19,15 +19,20 @@ import java.util.List;
 @Repository
 public interface CourseRepository {
 
+
+
     @Select({
-            "select * from courscio_course where crn=#{crn}",
-            "union (select * from courscio_course where cname like concat('%', #{keyword}, '%'))",
-            "union (select * from courscio_course where title like concat('%', #{keyword}, '%'))",
-            "union (select * from courscio_course where 'desc' like concat('%', #{keyword}, '%'))",
-            "union (select a.id, school_id, semester, major, crn, cname, title, credit, score, 'desc', preq, weekday, start_t, end_t, c.id, name, location",
-//            "union (select *",
-            "from courscio_course a, courscio_professor b, courscio_teaching c, courscio_schedule d",
-            "where a.id=c.course_id and b.id=c.professor_id and d.teaching_id = c.id and b.name like concat('%', #{keyword}, '%'))",
+            "select c.id, school_id, semester, major, crn, cname, title, credit, score, 'desc', preq, weekday, start_t, end_t, t.id, name, location",
+            "from courscio_course c inner join courscio_teaching t on c.id = t.course_id inner join courscio_schedule s on s.teaching_id = t.id inner join courscio_professor p on p.id =t.professor_id where cname like concat('%', #{keyword}, '%')",
+            "union (select c.id, school_id, semester, major, crn, cname, title, credit, score, 'desc', preq, weekday, start_t, end_t, t.id, name, location",
+            "from courscio_course c inner join courscio_teaching t on c.id = t.course_id inner join courscio_schedule s on s.teaching_id = t.id inner join courscio_professor p on p.id =t.professor_id where title like concat('%', #{keyword}, '%'))",
+
+    "union (select c.id, school_id, semester, major, crn, cname, title, credit, score, 'desc', preq, weekday, start_t, end_t, t.id, name, location",
+            "from courscio_course c inner join courscio_teaching t on c.id = t.course_id inner join courscio_schedule s on s.teaching_id = t.id inner join courscio_professor p on p.id =t.professor_id where 'desc' like concat('%', #{keyword}, '%'))",
+
+    "union (select c.id, school_id, semester, major, crn, cname, title, credit, score, 'desc', preq, weekday, start_t, end_t, t.id, name, location",
+            "from courscio_course c inner join courscio_teaching t on c.id = t.course_id inner join courscio_schedule s on s.teaching_id = t.id inner join courscio_professor p on p.id =t.professor_id",
+                   "where p.name like concat('%', #{keyword}, '%'))",
     })
     @Results({
             @Result(column = "a.id", property = "id", jdbcType = JdbcType.BIGINT),

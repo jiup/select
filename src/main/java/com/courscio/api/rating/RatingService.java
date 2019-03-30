@@ -3,6 +3,8 @@ package com.courscio.api.rating;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class RatingService {
     private final RatingRepository ratingRepository;
@@ -12,7 +14,7 @@ public class RatingService {
         this.ratingRepository = ratingRepository;
     }
     
-    public Rating findById(long Id) {
+    public List<Rating> findById(long Id) {
     	return ratingRepository.findById(Id);
     }
     
