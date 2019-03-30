@@ -61,6 +61,11 @@ public class CartController {
     @Delete("/{userId}/cart/{id}")
     @PreAuthorize("authentication.principal.get(\"id\").toString().equals(\"\" + #userId)")
     public HttpStatus delete(@PathVariable Long id, @PathVariable Long userId) {
-        return cartService.deleteCartItem(id) ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
+        if (cartService.deleteCartItem(id)) {
+            return HttpStatus.OK;
+        }
+        CartItem item = cartService.getItem(id);
+        LOG.warn("bad-request: invalid cart delete (courseId={}, userId={})", item.getCourseId(), userId);
+        return HttpStatus.BAD_REQUEST;
     }
 }
