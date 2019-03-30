@@ -26,13 +26,10 @@ public interface CourseRepository {
             "from courscio_course c inner join courscio_teaching t on c.id = t.course_id inner join courscio_schedule s on s.teaching_id = t.id inner join courscio_professor p on p.id =t.professor_id where cname like concat('%', #{keyword}, '%')",
             "union (select c.id, school_id, semester, major, crn, cname, title, credit, score, 'desc', preq, weekday, start_t, end_t, t.id, name, location",
             "from courscio_course c inner join courscio_teaching t on c.id = t.course_id inner join courscio_schedule s on s.teaching_id = t.id inner join courscio_professor p on p.id =t.professor_id where title like concat('%', #{keyword}, '%'))",
-
-    "union (select c.id, school_id, semester, major, crn, cname, title, credit, score, 'desc', preq, weekday, start_t, end_t, t.id, name, location",
+            "union (select c.id, school_id, semester, major, crn, cname, title, credit, score, 'desc', preq, weekday, start_t, end_t, t.id, name, location",
             "from courscio_course c inner join courscio_teaching t on c.id = t.course_id inner join courscio_schedule s on s.teaching_id = t.id inner join courscio_professor p on p.id =t.professor_id where 'desc' like concat('%', #{keyword}, '%'))",
-
-    "union (select c.id, school_id, semester, major, crn, cname, title, credit, score, 'desc', preq, weekday, start_t, end_t, t.id, name, location",
-            "from courscio_course c inner join courscio_teaching t on c.id = t.course_id inner join courscio_schedule s on s.teaching_id = t.id inner join courscio_professor p on p.id =t.professor_id",
-                   "where p.name like concat('%', #{keyword}, '%'))",
+            "union (select c.id, school_id, semester, major, crn, cname, title, credit, score, 'desc', preq, weekday, start_t, end_t, t.id, name, location",
+            "from courscio_course c inner join courscio_teaching t on c.id = t.course_id inner join courscio_schedule s on s.teaching_id = t.id inner join courscio_professor p on p.id =t.professor_id where p.name like concat('%', #{keyword}, '%'))",
     })
     @Results({
             @Result(column = "a.id", property = "id", jdbcType = JdbcType.BIGINT),
