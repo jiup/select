@@ -13,9 +13,11 @@ import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 import org.springframework.boot.web.servlet.server.ConfigurableServletWebServerFactory;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -51,7 +53,7 @@ import java.util.Collections;
  */
 @SpringBootApplication
 @EnableSwagger2
-public class Application {
+public class Application extends SpringBootServletInitializer {
     public static final String VERSION_MAJOR = "1";
     public static final String VERSION_MINOR = "0";
     public static final String REVISION = "4";
@@ -61,6 +63,11 @@ public class Application {
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
+    }
+
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+        return builder.sources(Application.class); // deploy in servlet component
     }
 
     @Bean("dataSource")
@@ -99,10 +106,8 @@ public class Application {
     @Bean("apiDocumentation")
     public Docket apiDocumentation(ServletContext servletContext) {
         return new Docket(DocumentationType.SWAGGER_2)
-                .host("127.0.0.1:8080")
-                .select()
-                .apis(RequestHandlerSelectors.basePackage("com.courscio.api"))
-                .build()
+                .host("api.courscio.com")
+                .select().apis(RequestHandlerSelectors.basePackage("com.courscio.api")).build()
                 .apiInfo(new ApiInfoBuilder()
                         .title("Courscio API Center")
                         .version(VERSION_MAJOR + "." + VERSION_MINOR + "." + REVISION)
