@@ -24,7 +24,8 @@ public interface CourseRepository {
             "union (select * from courscio_course where cname like concat('%', #{keyword}, '%'))",
             "union (select * from courscio_course where title like concat('%', #{keyword}, '%'))",
             "union (select * from courscio_course where 'desc' like concat('%', #{keyword}, '%'))",
-            "union (select a.id, school_id, semester, major, crn, cname, title, credit, score, 'desc', preq, weekday, start_t, end_t, id, name, location",
+            "union (select a.id, school_id, semester, major, crn, cname, title, credit, score, 'desc', preq, weekday, start_t, end_t, a.id, name, location",
+//            "union (select *",
             "from courscio_course a, courscio_professor b, courscio_teaching c, courscio_schedule d",
             "where a.id=c.course_id and b.id=c.professor_id and d.teaching_id = c.id and b.name like concat('%', #{keyword}, '%'))",
     })
