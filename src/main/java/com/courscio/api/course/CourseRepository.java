@@ -39,7 +39,7 @@ public interface CourseRepository {
             "union (select *",
             "from courscio_course c inner join courscio_teaching t on c.id = t.course_id inner join courscio_schedule s on s.teaching_id = t.id inner join courscio_professor p on p.id =t.professor_id where MATCH(`desc`) against (#{keyword} in NATURAL LANGUAGE MODE))",
             "union (select *",
-            "from courscio_course c inner join courscio_teaching t on c.id = t.course_id inner join courscio_schedule s on s.teaching_id = t.id inner join courscio_professor p on p.id =t.professor_id where p.name like concat('%', #{keyword}, '%'))"
+            "from courscio_course c inner join courscio_teaching t on c.id = t.course_id inner join courscio_schedule s on s.teaching_id = t.id inner join courscio_professor p on p.id =t.professor_id where MATCH(p.name) against (#{keyword} in NATURAL LANGUAGE MODE))"
     })
     @Results({
             @Result(column = "id", property = "id", jdbcType = JdbcType.BIGINT),
