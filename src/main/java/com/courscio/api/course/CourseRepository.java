@@ -10,6 +10,7 @@ import org.apache.ibatis.type.JdbcType;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Jiupeng Zhang
@@ -22,15 +23,26 @@ public interface CourseRepository {
 
 
     @Select({
-            "select c.id, school_id, semester, major, crn, cname, title, credit, score, 'desc', preq, weekday, start_t, end_t, t.id, name, location",
+//            "select c.id, school_id, semester, major, crn, cname, title, credit, score, `desc`, preq, weekday, start_t, end_t, name, location",
+//            "from courscio_course c inner join courscio_teaching t on c.id = t.course_id inner join courscio_schedule s on s.teaching_id = t.id inner join courscio_professor p on p.id =t.professor_id where cname like concat('%', #{keyword}, '%')",
+//            "union (select c.id, school_id, semester, major, crn, cname, title, credit, score, `desc`, preq, weekday, start_t, end_t, name, location",
+//            "from courscio_course c inner join courscio_teaching t on c.id = t.course_id inner join courscio_schedule s on s.teaching_id = t.id inner join courscio_professor p on p.id =t.professor_id where title like concat('%', #{keyword}, '%'))",
+////            "union (select c.id, school_id, semester, major, crn, cname, title, credit, score, `desc`, preq, weekday, start_t, end_t, t.id, name, location",
+////            "from courscio_course c inner join courscio_teaching t on c.id = t.course_id inner join courscio_schedule s on s.teaching_id = t.id inner join courscio_professor p on p.id =t.professor_id where MATCH(`desc`) against (#{keyword} in NATURAL LANGUAGE MODE))",
+//            "union (select c.id, school_id, semester, major, crn, cname, title, credit, score, `desc`, preq, weekday, start_t, end_t, name, location",
+//            "from courscio_course c inner join courscio_teaching t on c.id = t.course_id inner join courscio_schedule s on s.teaching_id = t.id inner join courscio_professor p on p.id =t.professor_id where p.name like concat('%', #{keyword}, '%'))"
+
+            "select *",
             "from courscio_course c inner join courscio_teaching t on c.id = t.course_id inner join courscio_schedule s on s.teaching_id = t.id inner join courscio_professor p on p.id =t.professor_id where cname like concat('%', #{keyword}, '%')",
-            "union (select c.id, school_id, semester, major, crn, cname, title, credit, score, 'desc', preq, weekday, start_t, end_t, t.id, name, location",
+            "union (select *",
             "from courscio_course c inner join courscio_teaching t on c.id = t.course_id inner join courscio_schedule s on s.teaching_id = t.id inner join courscio_professor p on p.id =t.professor_id where title like concat('%', #{keyword}, '%'))",
-            "union (select c.id, school_id, semester, major, crn, cname, title, credit, score, 'desc', preq, weekday, start_t, end_t, t.id, name, location",
-            "from courscio_course c inner join courscio_teaching t on c.id = t.course_id inner join courscio_schedule s on s.teaching_id = t.id inner join courscio_professor p on p.id =t.professor_id where MATCH('desc') against (#{keyword} in NATURAL LANGUAGE MODE) or MATCH(p.name) against (#{keyword} in NATURAL LANGUAGE MODE))"
+//            "union (select c.id, school_id, semester, major, crn, cname, title, credit, score, `desc`, preq, weekday, start_t, end_t, t.id, name, location",
+//            "from courscio_course c inner join courscio_teaching t on c.id = t.course_id inner join courscio_schedule s on s.teaching_id = t.id inner join courscio_professor p on p.id =t.professor_id where MATCH(`desc`) against (#{keyword} in NATURAL LANGUAGE MODE))",
+            "union (select *",
+            "from courscio_course c inner join courscio_teaching t on c.id = t.course_id inner join courscio_schedule s on s.teaching_id = t.id inner join courscio_professor p on p.id =t.professor_id where p.name like concat('%', #{keyword}, '%'))"
     })
     @Results({
-            @Result(column = "c.id", property = "id", jdbcType = JdbcType.BIGINT),
+            @Result(column = "id", property = "id", jdbcType = JdbcType.BIGINT),
             @Result(column = "school_id", property = "schoolId", jdbcType = JdbcType.BIGINT),
             @Result(column = "semester", property = "semester", jdbcType = JdbcType.VARCHAR),
             @Result(column = "major", property = "major", jdbcType = JdbcType.VARCHAR),
@@ -44,7 +56,7 @@ public interface CourseRepository {
             @Result(column = "weekday", property = "weekday", javaType = Schedule.WeekDay.class, typeHandler = Schedule.WeekDay.Handler.class),
             @Result(column = "start_t", property = "start_t", jdbcType = JdbcType.VARCHAR),
             @Result(column = "end_t", property = "end_t", jdbcType = JdbcType.VARCHAR),
-            @Result(column = "t.id", property = "key", jdbcType = JdbcType.BIGINT, id = true),
+            @Result(column = "id", property = "key", jdbcType = JdbcType.BIGINT, id = true),
             @Result(column = "name", property = "name", jdbcType = JdbcType.VARCHAR),
             @Result(column = "location", property = "location", jdbcType = JdbcType.VARCHAR),
     })

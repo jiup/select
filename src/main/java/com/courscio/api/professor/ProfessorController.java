@@ -24,6 +24,10 @@ public class ProfessorController {
 
     @GetMapping
     public ResponseEntity<Professor> get(@PathVariable Long professorId) {
-        return new ResponseEntity<>(professorService.getById(professorId), HttpStatus.OK);
+        Professor p = professorService.getById(professorId);
+        if (p.getId() == 0) {
+            return new ResponseEntity<>(p, HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(p, HttpStatus.OK);
     }
 }
