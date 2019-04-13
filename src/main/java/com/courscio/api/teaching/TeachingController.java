@@ -4,11 +4,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -31,10 +30,10 @@ public class TeachingController {
         return result != null ? new ResponseEntity<>(result, HttpStatus.OK) : ResponseEntity.notFound().build();
     }
 
-    @GetMapping(value = "/list", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> list(@RequestBody Long[] ids) {
+    @GetMapping(value = "/list")
+    public ResponseEntity<?> list(@RequestParam("ids") Long[] ids) {
         if (ids.length == 0) {
-            LOG.warn("bad-request: /list followed with zero-length ids");
+            LOG.warn("bad-request: /list followed with zero-length 'ids' list");
             return ResponseEntity.badRequest().build();
         }
         List<TeachingResult> resultList = teachingService.getByIds(ids);
