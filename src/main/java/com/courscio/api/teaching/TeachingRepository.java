@@ -23,9 +23,10 @@ public interface TeachingRepository {
 
 	@Select({
             "<script>",
-            "select courscio_teaching.id, cname, weekday, start_t, end_t",
-            "from courscio_teaching, courscio_course, courscio_schedule",
-            "where courscio_teaching.course_id = courscio_course.id and courscio_teaching.id in",
+            "select courscio_teaching.id, cname, weekday, start_t, end_t from courscio_teaching",
+            "left join courscio_schedule on courscio_teaching.id = courscio_schedule.teaching_id",
+            "left join courscio_course on courscio_teaching.course_id = courscio_course.id",
+            "where courscio_teaching.id in",
             "<foreach item='it' index='index' collection='ids' open='(' separator=',' close=')'>#{it}</foreach>",
             "</script>",
     })

@@ -27,8 +27,8 @@ public class TeachingController {
         return result != null ? new ResponseEntity<>(result, HttpStatus.OK) : ResponseEntity.notFound().build();
     }
 
-    @GetMapping(value = "/teachings", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> query(@RequestBody Long[] ids) {
+    @GetMapping(value = "/list", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> list(@RequestBody Long[] ids) {
         List<TeachingResult> resultList = teachingService.getByIds(ids);
         return new ResponseEntity<>(resultList, HttpStatus.OK);
     }
