@@ -3,6 +3,8 @@ package com.courscio.api.teaching;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class TeachingService {
     private final TeachingRepository teachingRepository;
@@ -14,6 +16,10 @@ public class TeachingService {
 
     public Teaching getById(Long id) {
         return teachingRepository.findById(id);
+    }
+
+    public List<TeachingResult> getByIds(Long[] ids) {
+        return teachingRepository.findByIds(ids);
     }
 }
 

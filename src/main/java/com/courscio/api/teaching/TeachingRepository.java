@@ -1,11 +1,10 @@
 package com.courscio.api.teaching;
 
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Mapper
 @Repository
@@ -21,4 +20,14 @@ public interface TeachingRepository {
 
     })
     Teaching findById(long id);
+
+	@Select({
+            "<script>",
+            "select courscio_teaching.id, cname, weekday, start_t, end_t",
+            "from courscio_teaching, courscio_course, courscio_schedule",
+            "where courscio_teaching.course_id = courscio_course.id and courscio_teaching.id in",
+            "<foreach item='it' index='index' collection='ids' open='(' separator=',' close=')'>#{it}</foreach>",
+            "</script>",
+    })
+	List<TeachingResult> findByIds(@Param("ids") Long[] ids);
 }
