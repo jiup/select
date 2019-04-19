@@ -37,6 +37,8 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.spi.DocumentationType;
@@ -55,7 +57,7 @@ import java.util.Collections;
 @EnableSwagger2
 public class Application extends SpringBootServletInitializer {
     public static final String VERSION_MAJOR = "1";
-    public static final String VERSION_MINOR = "0";
+    public static final String VERSION_MINOR = "1";
     public static final String REVISION = "4";
     public static final String VERSION = VERSION_MAJOR + "." + VERSION_MINOR + "." + REVISION;
     public static final String CONTEXT_PATH = "/api/v" + VERSION_MAJOR;
@@ -83,7 +85,7 @@ public class Application extends SpringBootServletInitializer {
         ds.setDriverClassName(com.mysql.cj.jdbc.Driver.class.getName());
         ds.setJdbcUrl("jdbc:mysql://localhost:3306/courscio?characterEncoding=UTF8&serverTimezone=UTC&useSSL=false");
         ds.addDataSourceProperty("user", "root");
-        ds.addDataSourceProperty("password", "root");
+        ds.addDataSourceProperty("password", "");
         ds.addDataSourceProperty("cachePrepStmts", true);
         ds.addDataSourceProperty("prepStmtCacheSize", 250);
         ds.addDataSourceProperty("prepStmtCacheSqlLimit", 2048);
@@ -142,6 +144,16 @@ public class Application extends SpringBootServletInitializer {
         return new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), new JacksonFactory())
                 .setAudience(Collections.singletonList(G_CLIENT_ID))
                 .build();
+    }
+
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**").allowedOrigins("https://www.courscio.com");
+            }
+        };
     }
 }
 

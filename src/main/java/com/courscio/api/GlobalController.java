@@ -19,7 +19,7 @@ public class GlobalController {
     public ObjectNode home() {
         ObjectNode root = JsonNodeFactory.instance.objectNode();
         return root.put("message", "Welcome to Courscio API Center")
-                .put("developer", "Jiupeng (jiupeng.zhang@rochester.edu)")
+                .put("developer", "Jiupeng Zhang, Yuanzhuo Wang")
                 .put("documentation_url", "https://doc.courscio.com/api")
                 .put("version", Application.VERSION);
     }
