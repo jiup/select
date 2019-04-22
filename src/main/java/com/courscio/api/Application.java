@@ -154,8 +154,7 @@ public class Application extends SpringBootServletInitializer {
                 registry.addMapping("/**")
                     .allowedOrigins("*")
                     .allowedHeaders("*")
-                    .allowedMethods("*")
-                    .allowCredentials(true);;
+                    .allowedMethods("*");
             }
         };
     }
